@@ -14,7 +14,7 @@ for SERVICE in "${SERVICES[@]}"; do
   if docker image inspect "$IMG" > /dev/null 2>&1; then
     docker rmi -f "$IMG"
   fi
-  docker build -t "$IMG" -f DevOps/Dockerfile.$SERVICE ./$SERVICE
+  docker build -t "$IMG" -f DevOps/Dockerfile.$SERVICE .
   docker push "$IMG"
 done
 
