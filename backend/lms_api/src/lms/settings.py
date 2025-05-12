@@ -89,7 +89,7 @@ LOGGING = {
     },
 }
 
-CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672/'
+CELERY_BROKER_URL = 'amqp://guest:guest@110.34.2.30:5004/'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 
@@ -120,8 +120,8 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-     "http://localhost:3000" 
+    "http://www.hsmonline.edu.np:5002",
+     "http://110.34.2.30:5002/login" 
 ]
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
@@ -175,7 +175,7 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': 'cmos',  # Must match docker-compose.yml
         'HOST': 'db',           
-        'PORT': '5432',
+        'PORT': '5003',
     }
 }
 

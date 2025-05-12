@@ -1,17 +1,22 @@
 FROM python:3.11-slim
-WORKDIR /code
-COPY backend/lms_api/requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
-COPY ../backend/lms_api .
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Set work directory inside container
+WORKDIR /app
+
+# Copy and install dependencies
+COPY backend/lms_api/requirements.txt .
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+# Copy the application source code
+COPY backend/lms_api/src .
+
+# Expose port for gunicorn
+EXPOSE 5005
+
+# Run Django via Gunicorn (adjust `lms.wsgi` as needed based on your project name)
 CMD ["gunicorn", "lms.wsgi:application", "--bind", "0.0.0.0:5005"]
-
-
-
-
-
-# FROM python:3.11-slim
-# WORKDIR /code
-# COPY ../backend/Lms_Api/requirements.txt ./
-# RUN pip install --no-cache-dir -r requirements.txt
-# COPY ../backend/Lms_Api .
-# CMD ["gunicorn", "app.wsgi:application", "--bind", "0.0.0.0:8000"]
