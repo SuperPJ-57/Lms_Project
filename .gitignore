@@ -1,0 +1,88 @@
+### General ###
+*.log
+*.pid
+*.pyc
+*.swp
+.DS_Store
+.env
+.venv
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.idea/
+.vscode/
+*.iml
+*.sublime-workspace
+*.sublime-project
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+### Python ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.venv/
+env/
+ENV/
+
+# Django stuff:
+*.sqlite3
+*.sql
+db.sqlite3
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+### Node ###
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# Testing
+/coverage
+
+# Production
+build/
+dist/
+
+# Misc
+.npm
+.eslintcache
+
+# Yarn
+yarn.lock
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+### Docker ###
+docker-compose.override.yml
+
+### Database ###
+*.db
+*.dump
+*.sqlite

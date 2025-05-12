@@ -1,0 +1,73 @@
+version: '3.8'
+services:
+  frontend:
+    image: superpj57/frontend:latest
+    networks:
+      app-network:
+        ipv4_address: 172.20.0.10
+    ports:
+      - "80:80"
+    volumes:
+      - frontend-data:/usr/share/nginx/html
+
+  backend:
+    image: superpj57/backend:latest
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_PASSWORD=cmos
+    networks:
+      app-network:
+        ipv4_address: 172.20.0.20
+    ports:
+      - "8000:8000"
+    volumes:
+      - backend-logs:/var/log/app
+
+networks:
+  app-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.1
+
+volumes:
+  frontend-data:
+  backend-logs:
+
+
+
+
+
+# version: '3.8'
+# services:
+#   frontend:
+#     image: superpj57/frontend:latest
+#     networks:
+#       app-network:
+#         ipv4_address: 172.20.0.10
+#     volumes:
+#       - frontend-data:/usr/share/nginx/html
+
+#   backend:
+#     image: superpj57/backend:latest
+#     environment:
+#       - DATABASE_HOST=db
+#       - DATABASE_PASSWORD=cmos
+#     networks:
+#       app-network:
+#         ipv4_address: 172.20.0.20
+#     volumes:
+#       - backend-logs:/var/log/app
+
+# networks:
+#   app-network:
+#     driver: bridge
+#     ipam:
+#       config:
+#         - subnet: 172.20.0.0/16
+#           gateway: 172.20.0.1
+
+# volumes:
+#   frontend-data:
+#   backend-logs:
