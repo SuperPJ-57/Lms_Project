@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
   frontend:
     image: superpj57/frontend:latest
@@ -6,7 +7,7 @@ services:
       app-network:
         ipv4_address: 172.20.0.10
     ports:
-      - "80:80"
+      - "5002:80"
     volumes:
       - frontend-data:/usr/share/nginx/html
 
@@ -14,14 +15,52 @@ services:
     image: superpj57/backend:latest
     environment:
       - DATABASE_HOST=db
+      - DATABASE_USER=postgres
       - DATABASE_PASSWORD=cmos
+      - DATABASE_NAME=lms
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_USER=guest
+      - RABBITMQ_PASS=guest
+    depends_on:
+      - db
+      - rabbitmq
     networks:
       app-network:
         ipv4_address: 172.20.0.20
     ports:
-      - "8000:8000"
+      - "5005:8000"
     volumes:
       - backend-logs:/var/log/app
+
+  db:
+    image: postgres:15
+    container_name: lms_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: lms
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: cmos
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5003:5432"
+    networks:
+      app-network:
+        ipv4_address: 172.20.0.30
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: lms_rabbitmq
+    restart: always
+    ports:
+      - "5004:5672"     # AMQP protocol (for backend)
+      - "15673:15672"   # Web UI
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      app-network:
+        ipv4_address: 172.20.0.40
 
 networks:
   app-network:
@@ -34,40 +73,4 @@ networks:
 volumes:
   frontend-data:
   backend-logs:
-
-
-
-
-
-# version: '3.8'
-# services:
-#   frontend:
-#     image: superpj57/frontend:latest
-#     networks:
-#       app-network:
-#         ipv4_address: 172.20.0.10
-#     volumes:
-#       - frontend-data:/usr/share/nginx/html
-
-#   backend:
-#     image: superpj57/backend:latest
-#     environment:
-#       - DATABASE_HOST=db
-#       - DATABASE_PASSWORD=cmos
-#     networks:
-#       app-network:
-#         ipv4_address: 172.20.0.20
-#     volumes:
-#       - backend-logs:/var/log/app
-
-# networks:
-#   app-network:
-#     driver: bridge
-#     ipam:
-#       config:
-#         - subnet: 172.20.0.0/16
-#           gateway: 172.20.0.1
-
-# volumes:
-#   frontend-data:
-#   backend-logs:
+  postgres_data:
