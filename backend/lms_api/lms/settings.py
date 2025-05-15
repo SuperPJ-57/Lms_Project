@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-foh2z%)bv@=+f_31%6g9tdz^p0$aet2t%zdbx=1@n+c9!^jpdj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -89,7 +89,7 @@ LOGGING = {
     },
 }
 
-CELERY_BROKER_URL = 'amqp://guest:guest@110.34.2.30:5004/'
+CELERY_BROKER_URL = 'amqp://guest:guest@110.34.2.30:5672/'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 
@@ -121,7 +121,8 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://www.hsmonline.edu.np:5002",
-     "http://110.34.2.30:5002/login" 
+     "http://110.34.2.30:5002",
+    "http://localhost:5002", 
 ]
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
@@ -171,11 +172,11 @@ WSGI_APPLICATION = 'lms.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'lms',
-        'USER': 'postgres',
-        'PASSWORD': 'cmos',  # Must match docker-compose.yml
-        'HOST': 'db',           
-        'PORT': '5003',
+        'NAME': os.getenv('DATABASE_NAME', 'lms'),
+        'USER': os.getenv('DATABASE_USER', 'postgres'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD', 'cmos'),
+        'HOST': os.getenv('DATABASE_HOST', 'localhost'),
+        'PORT': os.getenv('DATABASE_PORT', '5432'),
     }
 }
 

@@ -16,7 +16,7 @@ RUN pip install --upgrade pip && \
 COPY backend/lms_api .
 
 # Expose port for gunicorn
-EXPOSE 5005
+EXPOSE 5010
 
-# Run Django via Gunicorn (adjust `lms.wsgi` as needed based on your project name)
-CMD ["gunicorn", "lms.wsgi:application", "--bind", "0.0.0.0:5005"]
+# Run migrations and start Django dev server
+CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:5010"]

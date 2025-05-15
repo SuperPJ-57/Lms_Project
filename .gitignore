@@ -26,8 +26,8 @@ __pycache__/
 *$py.class
 
 # Virtual environment
-venv/
-.venv/
+/backend/venv/
+/backend/.venv/
 env/
 ENV/
 
@@ -86,3 +86,13 @@ docker-compose.override.yml
 *.db
 *.dump
 *.sqlite
+
+**/venv/
+**/.venv/
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+**/.git/
+**/.env
+/backend/lms_api/Dockerfile
