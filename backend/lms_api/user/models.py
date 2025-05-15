@@ -3,12 +3,12 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 import uuid
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self, user_name, password=None, **extra_fields):
+    def create_user(self, user_name, password=None,email=None, **extra_fields):
         """Create and return a regular user with a username and password."""
         if not user_name:
             raise ValueError("The Username field must be set")
         
-        user = self.model(user_name=user_name, **extra_fields)
+        user = self.model(user_name=user_name, email=email,**extra_fields)
         user.set_password(password)  # Hash password
         user.save(using=self._db)
         return user
