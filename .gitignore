@@ -4,7 +4,6 @@
 *.pyc
 *.swp
 .DS_Store
-.env
 .venv
 .env.local
 .env.development.local
@@ -94,5 +93,4 @@ docker-compose.override.yml
 **/*.pyo
 **/*.pyd
 **/.git/
-**/.env
 /backend/lms_api/Dockerfile
