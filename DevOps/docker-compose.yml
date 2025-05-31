@@ -19,7 +19,7 @@ services:
       retries: 10
     networks:
       app-network:
-        ipv4_address: 172.20.0.30
+        ipv4_address: 172.80.0.30
 
   rabbitmq:
     image: rabbitmq:3-management
@@ -32,7 +32,7 @@ services:
       RABBITMQ_DEFAULT_PASS: guest
     networks:
       app-network:
-        ipv4_address: 172.20.0.40
+        ipv4_address: 172.80.0.40
 
   backend:
     image: superpj57/backend:latest
@@ -51,7 +51,7 @@ services:
       RABBITMQ_PASS: guest
     networks:
       app-network:
-        ipv4_address: 172.20.0.20
+        ipv4_address: 172.80.0.20
     ports:
       - "5010:5010"
     volumes:
@@ -66,7 +66,7 @@ services:
       - "5002:80"
     networks:
       app-network:
-        ipv4_address: 172.20.0.10
+        ipv4_address: 172.80.0.10
 
   nginx:
     container_name: pj_nginx
@@ -79,15 +79,15 @@ services:
       - backend
     networks:
       app-network:
-        ipv4_address: 172.20.0.50
+        ipv4_address: 172.80.0.50
 
 networks:
   app-network:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.20.0.0/16
-          gateway: 172.20.0.1
+        - subnet: 172.80.0.0/16
+          gateway: 172.80.0.1
 
 volumes:
   backend-logs:
