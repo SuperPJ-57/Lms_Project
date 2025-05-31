@@ -52,8 +52,10 @@ services:
     networks:
       app-network:
         ipv4_address: 172.80.0.20
-    ports:
-      - "5010:5010"
+    expose:
+      - "5010"
+    # ports:
+    #   - "5010:5010"
     volumes:
       - backend-logs:/var/log/app
 
