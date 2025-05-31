@@ -94,3 +94,9 @@ docker-compose.override.yml
 **/*.pyd
 **/.git/
 /backend/lms_api/Dockerfile
+folder.py
+project_structure.txt
+
+
+/client-app/.env
+/lms_api/.env

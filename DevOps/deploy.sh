@@ -3,26 +3,31 @@ set -e
 
 REPO=superpj57
 TAG=latest
-SERVICES=(frontend backend)
+SERVICES=(frontend backend nginx)
 
 echo "Logging into Docker Hub..."
 docker login
 
 for SERVICE in "${SERVICES[@]}"; do
   IMG="$REPO/$SERVICE:$TAG"
-  echo "Processing $SERVICE..."
-  if docker image inspect "$IMG" > /dev/null 2>&1; then
-    docker rmi -f "$IMG"
+  if [ "$SERVICE" = "nginx" ]; then
+    DOCKERFILE_PATH="DevOps/nginx/Dockerfile.nginx"
+    CONTEXT_PATH="DevOps/nginx"
+  else
+    DOCKERFILE_PATH="DevOps/Dockerfile.$SERVICE"
+    CONTEXT_PATH="."
   fi
-  docker build -t "$IMG" -f DevOps/Dockerfile.$SERVICE .
+
+  echo "Building and pushing $IMG..."
+  docker build -t "$IMG" -f "$DOCKERFILE_PATH" "$CONTEXT_PATH"
   docker push "$IMG"
 done
 
-echo "Pulling images and deploying containers..."
+echo "Deploying with docker-compose..."
 docker compose -f DevOps/docker-compose.yml pull
 docker compose -f DevOps/docker-compose.yml up -d
 
-echo "Pruning unused resources..."
+echo "Cleaning up unused Docker resources..."
 docker system prune -f
 
 echo "Deployment complete."

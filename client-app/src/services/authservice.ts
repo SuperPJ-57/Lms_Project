@@ -70,6 +70,7 @@ export default apiClient;
 export const login = async (credentials: LoginDto): Promise<Tokens> => {
   try {
     TokenService.clearTokens(); // Clear any old auth tokens before login
+    console.log(apiClient.defaults.baseURL);
     const response = await apiClient.post("/login/", credentials);
     return response.data;
   } catch (error: any) {

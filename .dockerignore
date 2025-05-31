@@ -5,5 +5,10 @@
 **/*.pyo
 **/*.pyd
 **/.git/
-**/.env
-/backend/lms_api/Dockerfile
+/lms_api/Dockerfile
+/lms_api/docker-compose.yml
+folder.py
+project_structure.txt
+
+/client-app/.env
+/lms_api/.env

@@ -1,30 +1,49 @@
+# DevOps/docker-compose.yml
 version: '3.8'
 
 services:
-  frontend:
-    image: superpj57/frontend:latest
+  db:
+    image: postgres:15
+    container_name: pj_postgres
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: lms
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: cmos
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     networks:
       app-network:
-        ipv4_address: 172.20.0.10
+        ipv4_address: 172.20.0.30
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: lms_rabbitmq
     ports:
-      - "5002:80"
-    volumes:
-      - frontend-data:/usr/share/nginx/html
+      - "5004:5672"
+      - "15673:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      app-network:
+        ipv4_address: 172.20.0.40
 
   backend:
     image: superpj57/backend:latest
-    environment:
-      - DATABASE_HOST=db
-      - DATABASE_USER=postgres
-      - DATABASE_PASSWORD=cmos
-      - DATABASE_NAME=lms
-      - DATABASE_PORT=5432
-      - RABBITMQ_HOST=rabbitmq
-      - RABBITMQ_USER=guest
-      - RABBITMQ_PASS=guest
     depends_on:
       - db
       - rabbitmq
+    environment:
+      DATABASE_HOST: db
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: cmos
+      DATABASE_NAME: lms
+      DATABASE_PORT: 5432
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_USER: guest
+      RABBITMQ_PASS: guest
     networks:
       app-network:
         ipv4_address: 172.20.0.20
@@ -33,35 +52,25 @@ services:
     volumes:
       - backend-logs:/var/log/app
 
-  db:
-    image: postgres:15
-    container_name: lms_postgres
-    restart: always
-    environment:
-      POSTGRES_DB: lms
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: cmos
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5003:5432"
+  frontend:
+    image: superpj57/frontend:latest
     networks:
       app-network:
-        ipv4_address: 172.20.0.30
+        ipv4_address: 172.20.0.10
+    expose:
+      - "80"
 
-  rabbitmq:
-    image: rabbitmq:3-management
-    container_name: lms_rabbitmq
-    restart: always
+  nginx:
+    image: superpj57/nginx:latest
     ports:
-      - "5004:5672"     # AMQP protocol (for backend)
-      - "15673:15672"   # Web UI
-    environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
+      - "81:80"
+      - "443:443"
+    depends_on:
+      - frontend
+      - backend
     networks:
       app-network:
-        ipv4_address: 172.20.0.40
+        ipv4_address: 172.20.0.50
 
 networks:
   app-network:
@@ -72,6 +81,5 @@ networks:
           gateway: 172.20.0.1
 
 volumes:
-  frontend-data:
   backend-logs:
   postgres_data:
