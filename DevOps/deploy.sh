@@ -11,8 +11,8 @@ docker login
 for SERVICE in "${SERVICES[@]}"; do
   IMG="$REPO/$SERVICE:$TAG"
   if [ "$SERVICE" = "nginx" ]; then
-    DOCKERFILE_PATH="DevOps/nginx/Dockerfile.nginx"
-    CONTEXT_PATH="DevOps/nginx"
+    DOCKERFILE_PATH="DevOps/Dockerfile.nginx"
+    CONTEXT_PATH="DevOps"
   else
     DOCKERFILE_PATH="DevOps/Dockerfile.$SERVICE"
     CONTEXT_PATH="."
