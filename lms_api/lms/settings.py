@@ -122,7 +122,7 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://www.hsmonline.edu.np:5002",
     "http://110.34.2.30:5002",
-    "http://www.prajjwalgwachha.com.np"
+    "http://www.prajjwalgwachha.com.np",
     "http://localhost:5002", 
 ]
 

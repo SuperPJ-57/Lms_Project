@@ -67,7 +67,7 @@ const BookCopyForm: React.FC<BookCopyFormProps> = ({ selectedBookCopy, onSave })
         <div className="flex flex-col gap-2">
           
 
-          <label>Book Title</label>
+          <label>Barcode</label>
           <input
           className="bg-gray-400 rounded focus:border-blue-600 focus:border-2 focus:outline-none p-2"
             type="text"

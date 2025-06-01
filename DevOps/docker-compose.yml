@@ -9,7 +9,7 @@ services:
     environment:
       POSTGRES_DB: lms
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PASSWORD: cmos
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -43,7 +43,7 @@ services:
     environment:
       DATABASE_HOST: db
       DATABASE_USER: postgres
-      DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
+      DATABASE_PASSWORD: cmos
       DATABASE_NAME: lms
       DATABASE_PORT: 5432
       RABBITMQ_HOST: rabbitmq
@@ -52,10 +52,10 @@ services:
     networks:
       app-network:
         ipv4_address: 172.80.0.20
-    expose:
-      - "5010"
-    # ports:
-    #   - "5010:5010"
+    # expose:
+    #   - "5010"
+    ports:
+      - "5010:5010"
     volumes:
       - backend-logs:/var/log/app
 
